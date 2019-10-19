@@ -5,8 +5,10 @@ const express = require('express');
 const server = express();
 
 // rotas
-server.get('/teste', (req, res) => {
-  return res.json({ message: 'Hello world' });
+server.get('/users/:id', (req, res) => {
+  const nome = req.query.nome;
+  const id = req.params.id
+  return res.json({ message: `Hello ${nome}. Buscando id ${id}` });
 });
 
 // abrindo porta para o servidor
