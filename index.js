@@ -4,7 +4,7 @@ const express = require('express');
 // executando express
 const server = express();
 
-const users = ['bob', 'tchu', 'angel']
+const users = ['cookie', 'tchu', 'angel']
 
 // rotas
 server.get('/users/:id', (req, res) => {
