@@ -6,9 +6,10 @@
   "configurations": [
     {
       "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/index.js"
+      "request": "attach",
+      "name": "Launch Program module 02",
+      "restart": true,
+      "protocol": "inspector",
     }
   ]
 }
