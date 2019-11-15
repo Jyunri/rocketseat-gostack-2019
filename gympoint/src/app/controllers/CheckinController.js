@@ -29,8 +29,7 @@ class CheckinController {
 
     if (checkins.length >= 5) {
       return res.status(400).json({
-        error:
-          'Você só pode fazer 5 checkins dentro de um período de 7 dias corridos.',
+        error: 'Checkin count exceeded',
       });
     }
 

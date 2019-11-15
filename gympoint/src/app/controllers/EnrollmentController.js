@@ -2,6 +2,8 @@ import * as Yup from 'yup';
 import { addMonths } from 'date-fns';
 import Plan from '../models/Plan';
 import Enrollment from '../models/Enrollment';
+import Student from '../models/Student';
+import Mail from '../../lib/Mail';
 
 class EnrollmentController {
   async index(req, res) {
@@ -29,7 +31,7 @@ class EnrollmentController {
     if (enrollmentExistsForStudent) {
       return res
         .status(400)
-        .json({ error: 'Esse aluno já possui uma matricula' });
+        .json({ error: 'This student is already enrolled' });
     }
 
     const { price, duration } = await Plan.findByPk(req.body.plan_id);
@@ -45,6 +47,21 @@ class EnrollmentController {
       price: total_price,
       student_id,
       plan_id: req.body.plan_id,
+    });
+
+    const student = await Student.findByPk(student_id);
+
+    await Mail.sendMail({
+      to: `${student.name} <${student.email}>`,
+      subject: 'Bem vindo ao Gympoint!',
+      text: `
+        Detalhes da sua matrícula
+        Início: ${start_date}
+        Fim: ${end_date}
+        Valor: ${price}
+
+        Bons treinos!
+      `,
     });
 
     return res.json(enrollment);

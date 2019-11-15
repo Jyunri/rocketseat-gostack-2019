@@ -2,6 +2,12 @@ import * as Yup from 'yup';
 import Student from '../models/Student';
 
 class StudentController {
+  async index(req, res) {
+    const students = await Student.findAll();
+
+    return res.json(students);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -42,7 +48,7 @@ class StudentController {
 
     const { email } = req.body;
 
-    const student = await Student.findByPk(req.body.id);
+    const student = await Student.findByPk(req.params.id);
 
     if (email !== student.email) {
       const studentExists = await Student.findOne({ where: { email } });
