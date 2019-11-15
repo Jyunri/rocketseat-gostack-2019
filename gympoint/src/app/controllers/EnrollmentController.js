@@ -3,7 +3,8 @@ import { addMonths } from 'date-fns';
 import Plan from '../models/Plan';
 import Enrollment from '../models/Enrollment';
 import Student from '../models/Student';
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
+import EnrollmentMail from '../jobs/EnrollmentMail';
 
 class EnrollmentController {
   async index(req, res) {
@@ -51,17 +52,11 @@ class EnrollmentController {
 
     const student = await Student.findByPk(student_id);
 
-    await Mail.sendMail({
-      to: `${student.name} <${student.email}>`,
-      subject: 'Bem vindo ao Gympoint!',
-      text: `
-        Detalhes da sua matrícula
-        Início: ${start_date}
-        Fim: ${end_date}
-        Valor: ${price}
-
-        Bons treinos!
-      `,
+    await Queue.add(EnrollmentMail.key, {
+      student,
+      start_date,
+      end_date,
+      price,
     });
 
     return res.json(enrollment);

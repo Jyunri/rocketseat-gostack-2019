@@ -1,6 +1,7 @@
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
-import Mail from '../../lib/Mail';
+import AnswerOrderMail from '../jobs/AnswerOrderMail';
+import Queue from '../../lib/Queue';
 
 class AnswerOrderController {
   async index(req, res) {
@@ -23,16 +24,9 @@ class AnswerOrderController {
 
     const student = await Student.findByPk(student_id);
 
-    await Mail.sendMail({
-      to: `${student.name} <${student.email}>`,
-      subject: `Resposta a pergunta ${result.id}`,
-      text: `
-        Pergunta: ${result.question}
-        Resposta: ${result.answer}
-        Respondida em: ${result.answer_at}
-
-        Bons treinos!
-      `,
+    await Queue.add(AnswerOrderMail.key, {
+      student,
+      result,
     });
 
     return res.json(result);
