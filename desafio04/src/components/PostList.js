@@ -17,7 +17,7 @@ class PostList extends Component {
             id: 1,
             author: {
               name: "Diego Fernandes",
-              avatar: "http://url-da-imagem.com/imagem.jpg"
+              avatar: "https://www.pnglot.com/pngfile/detail/117-1176520_mushroom-fantasy-avatar-star-mario-game-play-comments.png"
             },
             content: "Sim estamos sim"
           }
@@ -36,15 +36,15 @@ class PostList extends Component {
             id: 1,
             author: {
               name: "Diego Fernandes",
-              avatar: "http://url-da-imagem.com/imagem.jpg"
+              avatar: "https://www.pnglot.com/pngfile/detail/117-1176520_mushroom-fantasy-avatar-star-mario-game-play-comments.png"
             },
             content: "Poxa que legal"
           },
           {
-            id: 1,
+            id: 2,
             author: {
               name: "Squall",
-              avatar: "http://url-da-imagem.com/imagem.jpg"
+              avatar: "https://gamerdan.com/dffoo/wp-content/uploads/sites/5/2018/03/squall.309e23f.jpg"
             },
             content: "Whatever"
           },
