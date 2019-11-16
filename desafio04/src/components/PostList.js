@@ -17,7 +17,7 @@ class PostList extends Component {
             id: 1,
             author: {
               name: "Diego Fernandes",
-              avatar: "https://www.pnglot.com/pngfile/detail/117-1176520_mushroom-fantasy-avatar-star-mario-game-play-comments.png"
+              avatar: "http://www.github.com/diego3g.png"
             },
             content: "Sim estamos sim"
           }
@@ -36,7 +36,7 @@ class PostList extends Component {
             id: 1,
             author: {
               name: "Diego Fernandes",
-              avatar: "https://www.pnglot.com/pngfile/detail/117-1176520_mushroom-fantasy-avatar-star-mario-game-play-comments.png"
+              avatar: "http://www.github.com/diego3g.png"
             },
             content: "Poxa que legal"
           },
