@@ -78,3 +78,7 @@ header .profile .profile-avatar{
 .comment-container {
   display: flex;
 }
+
+.comment-box {
+  background: #F2F2F2;
+}
