@@ -6,7 +6,7 @@ function Header() {
       <h1>facebook</h1>
       <div className="profile">
         Meu perfil
-        <i class="fas fa-user-circle profile-avatar"></i>
+        <i className="fas fa-user-circle profile-avatar"></i>
       </div>
     </header>
   )
