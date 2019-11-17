@@ -75,10 +75,28 @@ header .profile .profile-avatar{
   white-space: pre-wrap;
 }
 
+.separator {
+  height: 1px;
+  margin-top: 20px;
+  background: #EEEEEE;
+}
+
 .comment-container {
   display: flex;
+  margin-top: 20px;
 }
 
 .comment-box {
+  width: 100%;
+
   background: #F2F2F2;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 20px;
+}
+
+.comment-content {
+  line-height: 20px;
 }

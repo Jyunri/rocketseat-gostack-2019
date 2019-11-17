@@ -19,7 +19,14 @@ class PostList extends Component {
               name: "Diego Fernandes",
               avatar: "http://www.github.com/diego3g.png"
             },
-            content: "Sim estamos sim"
+            content: `A Rocketseat
+            está sempre em busca de novos membros para o
+            time, e geralmente ficamos de olho em quem se
+            destaca no Bootcamp, inclusive 80% do nosso time
+            de devs é composto por alunos do Bootcamp.
+            Além disso, se você tem vontade de ensinar gravando vídeos
+            e criando posts, pode me chamar no Discord!
+            (Sério, me chamem mesmo, esse comentário é real)`
           }
         ]
       },
@@ -38,7 +45,7 @@ class PostList extends Component {
               name: "Diego Fernandes",
               avatar: "http://www.github.com/diego3g.png"
             },
-            content: "Poxa que legal"
+            content: "Poxa que legal\nBora codar!"
           },
           {
             id: 2,
@@ -46,7 +53,7 @@ class PostList extends Component {
               name: "Squall",
               avatar: "https://gamerdan.com/dffoo/wp-content/uploads/sites/5/2018/03/squall.309e23f.jpg"
             },
-            content: "Whatever"
+            content: "Whatever..."
           },
         ]
       },

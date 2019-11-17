@@ -12,6 +12,7 @@ function Post({ post }) {
         </div>
       </div>
       <div className="post-content">{post.content}</div>
+      <div className="separator"></div>
       <div>
         {post.comments.map(comment => <Comment key={comment.id} comment={comment} />)}
       </div>
