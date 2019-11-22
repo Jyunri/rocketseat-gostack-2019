@@ -53,6 +53,7 @@ export default class Repository extends Component {
 
     this.setState(prevState => ({
       ...prevState,
+      loading: true,
       filter,
     }));
 
@@ -62,6 +63,7 @@ export default class Repository extends Component {
   setPage = page => {
     this.setState(prevState => ({
       ...prevState,
+      loading: true,
       page,
     }));
 
@@ -84,11 +86,12 @@ export default class Repository extends Component {
     this.setState(prevState => ({
       ...prevState,
       issues: issues.data,
+      loading: false,
     }));
   };
 
   render() {
-    const { repository, issues, loading, page } = this.state;
+    const { repository, issues, loading, page, filter } = this.state;
 
     if (loading) {
       return <Loading>Carregando</Loading>;
@@ -107,7 +110,7 @@ export default class Repository extends Component {
           <strong>
             <p>Issue Status</p>
           </strong>
-          <select onChange={this.setFilter}>
+          <select onChange={this.setFilter} value={filter}>
             <option value="all">All</option>
             <option value="open">Open</option>
             <option value="closed">Closed</option>
