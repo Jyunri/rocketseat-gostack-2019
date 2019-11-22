@@ -13,6 +13,7 @@ export default class Main extends Component {
     newRepo: ``,
     repositories: [],
     loading: false,
+    requestError: false,
   };
 
   componentDidMount() {
@@ -42,21 +43,35 @@ export default class Main extends Component {
 
     const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      if (repositories.find(repo => repo.name === newRepo)) {
+        throw new Error('Repositório Duplicado');
+      }
 
-    const data = {
-      name: response.data.full_name,
-    };
+      const response = await api.get(`/repos/${newRepo}`);
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      const data = {
+        name: response.data.full_name,
+      };
+
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+        requestError: false,
+      });
+    } catch (error) {
+      this.setState({
+        repositories,
+        newRepo: '',
+        loading: false,
+        requestError: true,
+      });
+    }
   };
 
   render() {
-    const { newRepo, loading, repositories } = this.state;
+    const { newRepo, loading, repositories, requestError } = this.state;
     return (
       <Container>
         <h1>
@@ -64,14 +79,14 @@ export default class Main extends Component {
           Repositórios
         </h1>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} requestError={requestError}>
           <input
             type="text"
             placeholder="Adicionar Repositório"
             value={newRepo}
             onChange={this.handleInputChange}
           />
-          <SubmitButton loading={loading}>
+          <SubmitButton loading={loading ? 1 : 0}>
             {loading ? (
               <FaSpinner color="FFF" size={14} />
             ) : (

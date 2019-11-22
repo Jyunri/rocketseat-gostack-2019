@@ -1,13 +1,15 @@
 import styled, { keyframes, css } from 'styled-components';
 
-export const Form = styled.form`
+export const Form = styled.form.attrs(props => ({
+  requestError: props.requestError,
+}))`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
 
   input {
     flex: 1;
-    border: 1px solid #eee;
+    border: 1px solid ${props => (props.requestError ? '#f00' : '#eee')};
     padding: 10px 15px;
     font-size: 16px;
   }
