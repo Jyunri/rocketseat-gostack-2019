@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { ActivityIndicator } from 'react-native';
 import api from '../../services/api';
 
 import {
@@ -29,23 +30,77 @@ export default class User extends Component {
 
   state = {
     stars: [],
+    loading: false,
+    page: 1,
+    refreshing: false,
   };
 
   async componentDidMount() {
     const { navigation } = this.props;
     const user = navigation.getParam('user');
 
-    const response = await api.get(`/users/${user.login}/starred`);
+    this.setState({
+      loading: true,
+      refreshing: true,
+    });
+
+    const response = await api.get(`/users/${user.login}/starred?page=1`);
 
     this.setState({
       stars: response.data,
+      loading: false,
+      page: 1,
+      refreshing: false,
     });
   }
+
+  loadMore = async () => {
+    const { navigation } = this.props;
+    const user = navigation.getParam('user');
+
+    const { stars, page } = this.state;
+    const newPage = page + 1;
+
+    const response = await api.get(
+      `/users/${user.login}/starred?page=${newPage}`
+    );
+
+    this.setState({
+      stars: [...stars, ...response.data],
+      loading: false,
+      page: newPage,
+    });
+  };
+
+  refreshList = async () => {
+    const { navigation } = this.props;
+    const user = navigation.getParam('user');
+
+    this.setState({
+      loading: true,
+      refreshing: true,
+    });
+
+    const response = await api.get(`/users/${user.login}/starred?page=1`);
+
+    this.setState({
+      stars: response.data,
+      loading: false,
+      page: 1,
+      refreshing: false,
+    });
+  };
+
+  handleNavigate = repository => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Repository', { repository });
+  };
 
   render() {
     const { navigation } = this.props;
     const user = navigation.getParam('user');
-    const { stars } = this.state;
+    const { stars, loading, refreshing } = this.state;
 
     return (
       <Container>
@@ -55,19 +110,27 @@ export default class User extends Component {
           <Bio>{user.bio}</Bio>
         </Header>
 
-        <Stars
-          data={stars}
-          keyExtractor={star => String(star.id)}
-          renderItem={({ item }) => (
-            <Starred>
-              <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
-              <Info>
-                <Title>{item.name}</Title>
-                <Author>{item.owner.login}</Author>
-              </Info>
-            </Starred>
-          )}
-        />
+        {loading ? (
+          <ActivityIndicator color="#7159c1" />
+        ) : (
+          <Stars
+            data={stars}
+            keyExtractor={star => String(star.id)}
+            renderItem={({ item }) => (
+              <Starred onPress={() => this.handleNavigate(item)}>
+                <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
+                <Info>
+                  <Title>{item.name}</Title>
+                  <Author>{item.owner.login}</Author>
+                </Info>
+              </Starred>
+            )}
+            onEndReachedThreshold={0.2} // Carrega mais itens quando chegar em 20% do fim
+            onEndReached={this.loadMore} // Função que carrega mais itens
+            onRefresh={this.refreshList} // Função dispara quando o usuário arrasta a lista pra baixo
+            refreshing={refreshing} // Variável que armazena um estado true/false que representa se a lista está atualizando
+          />
+        )}
       </Container>
     );
   }
