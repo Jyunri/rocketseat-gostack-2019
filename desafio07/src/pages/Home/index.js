@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {formatPrice} from '../../util/format';
 import {
   ProductList,
   Product,
@@ -9,6 +10,7 @@ import {
   ProductPrice,
   AddToCartButton,
   AddToCartButtonText,
+  AddToCartCounter,
 } from './styles';
 
 const products = [
@@ -61,9 +63,13 @@ function renderItem(item) {
     <Product>
       <ProductImage source={{uri: item.image}} />
       <ProductTitle>{item.title}</ProductTitle>
-      <ProductPrice>{item.price}</ProductPrice>
+      <ProductPrice>{formatPrice(item.price)}</ProductPrice>
       <AddToCartButton>
-        <AddToCartButtonText>Adicionar</AddToCartButtonText>
+        <AddToCartCounter>
+          <Icon name="shopping-cart" size={25} color="#FFF" />
+          <Text style={{color: '#FFF'}}>1</Text>
+        </AddToCartCounter>
+        <AddToCartButtonText>ADICIONAR</AddToCartButtonText>
       </AddToCartButton>
     </Product>
   );
