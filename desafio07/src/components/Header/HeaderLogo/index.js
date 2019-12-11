@@ -1,13 +1,16 @@
 import React from 'react';
-import {View, Image} from 'react-native';
+import {Image} from 'react-native';
+import {RectButton} from 'react-native-gesture-handler';
 
-export default () => (
-  <View style={{flexDirection: 'row', marginLeft: 10, marginBottom: 10}}>
+export default ({navigation}) => (
+  <RectButton
+    style={{flexDirection: 'row', marginLeft: 10, marginBottom: 10}}
+    onPress={() => navigation.navigate('Home')}>
     <Image
       source={require('desafio07/src/assets/images/logo.png')}
       style={{
         resizeMode: 'contain',
       }}
     />
-  </View>
+  </RectButton>
 );
