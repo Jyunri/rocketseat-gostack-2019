@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {connect} from 'react-redux';
 import {formatPrice} from '../../util/format';
 import api from '../../services/api';
 import {
@@ -14,69 +15,7 @@ import {
   AddToCartCounter,
 } from './styles';
 
-const products = [
-  {
-    id: 1,
-    title: 'Tênis de Caminhada Leve Confortável',
-    price: 179.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Tênis VR Caminhada Confortável Detalhes Couro Masculino',
-    price: 139.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg',
-  },
-  {
-    id: 3,
-    title: 'Tênis Adidas Duramo Lite 2.0',
-    price: 219.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis3.jpg',
-  },
-  {
-    id: 5,
-    title: 'Tênis VR Caminhada Confortável Detalhes Couro Masculino',
-    price: 139.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg',
-  },
-  {
-    id: 6,
-    title: 'Tênis Adidas Duramo Lite 2.0',
-    price: 219.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis3.jpg',
-  },
-  {
-    id: 4,
-    title: 'Tênis de Caminhada Leve Confortável',
-    price: 179.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-  },
-];
-
-function renderItem(item) {
-  return (
-    <Product>
-      <ProductImage source={{uri: item.image}} />
-      <ProductTitle>{item.title}</ProductTitle>
-      <ProductPrice>{formatPrice(item.price)}</ProductPrice>
-      <AddToCartButton>
-        <AddToCartCounter>
-          <Icon name="shopping-cart" size={25} color="#FFF" />
-          <Text style={{color: '#FFF'}}>1</Text>
-        </AddToCartCounter>
-        <AddToCartButtonText>ADICIONAR</AddToCartButtonText>
-      </AddToCartButton>
-    </Product>
-  );
-}
-
-export default class Home extends Component {
+class Home extends Component {
   state = {
     products: [],
   };
@@ -87,6 +26,32 @@ export default class Home extends Component {
     this.setState({products: response.data});
   }
 
+  handleAddProduct = product => {
+    const {dispatch} = this.props;
+
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    });
+  };
+
+  renderItem = item => {
+    return (
+      <Product>
+        <ProductImage source={{uri: item.image}} />
+        <ProductTitle>{item.title}</ProductTitle>
+        <ProductPrice>{formatPrice(item.price)}</ProductPrice>
+        <AddToCartButton onPress={() => this.handleAddProduct(item)}>
+          <AddToCartCounter>
+            <Icon name="shopping-cart" size={25} color="#FFF" />
+            <Text style={{color: '#FFF'}}>1</Text>
+          </AddToCartCounter>
+          <AddToCartButtonText>ADICIONAR</AddToCartButtonText>
+        </AddToCartButton>
+      </Product>
+    );
+  };
+
   render() {
     const {products} = this.state;
 
@@ -94,9 +59,11 @@ export default class Home extends Component {
       <ProductList
         data={products}
         keyExtractor={product => product.id}
-        renderItem={({item}) => renderItem(item)}
+        renderItem={({item}) => this.renderItem(item)}
         horizontal
       />
     );
   }
 }
+
+export default connect()(Home);
