@@ -1,7 +1,8 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {Component} from 'react';
+import {Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {formatPrice} from '../../util/format';
+import api from '../../services/api';
 import {
   ProductList,
   Product,
@@ -75,13 +76,27 @@ function renderItem(item) {
   );
 }
 
-export default function Home() {
-  return (
-    <ProductList
-      data={products}
-      keyExtractor={product => product.id}
-      renderItem={({item}) => renderItem(item)}
-      horizontal
-    />
-  );
+export default class Home extends Component {
+  state = {
+    products: [],
+  };
+
+  async componentDidMount() {
+    const response = await api.get('products');
+
+    this.setState({products: response.data});
+  }
+
+  render() {
+    const {products} = this.state;
+
+    return (
+      <ProductList
+        data={products}
+        keyExtractor={product => product.id}
+        renderItem={({item}) => renderItem(item)}
+        horizontal
+      />
+    );
+  }
 }
