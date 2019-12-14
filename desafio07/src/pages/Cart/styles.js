@@ -52,11 +52,19 @@ export const ProductTitle = styled.Text`
   font-size: 20px;
 `;
 
-export const ProductPrice = styled.Text`
+export const ProductPriceContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 5px;
+`;
+
+export const ProductPrice = styled.Text`
   font-size: 20px;
   font-weight: bold;
 `;
+
+export const ProductRemoveButton = styled(RectButton)``;
 
 export const ProductSubtotalContainer = styled.View`
   flex-direction: row;

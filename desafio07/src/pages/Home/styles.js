@@ -27,12 +27,14 @@ export const ProductTitle = styled.Text`
   color: #333;
   font-size: 20px;
 `;
+
 export const ProductPrice = styled.Text`
   font-size: 26px;
   font-weight: bold;
   margin: 0 10px;
   margin-top: auto;
 `;
+
 export const AddToCartButton = styled(RectButton)`
   margin-top: auto;
   margin-bottom: 10px;
