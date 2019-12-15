@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import * as Yup from 'yup';
 import User from '../models/User';
 import authConfig from '../../config/auth';
+import File from '../models/File';
 
 class SessionController {
   async store(req, res) {
@@ -16,7 +17,16 @@ class SessionController {
 
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['path', 'url', 'id'],
+        },
+      ],
+    });
 
     // Verifica se usuario existe
     if (!user) {
@@ -28,7 +38,7 @@ class SessionController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, name } = user;
+    const { id, name, avatar, provider } = user;
 
     // gera token baseado no id + uma hash aleatoria (ver sessao seguinte) + opcoes
     const token = jwt.sign({ id }, authConfig.secret, {
@@ -40,6 +50,8 @@ class SessionController {
         id,
         name,
         email,
+        avatar,
+        provider,
       },
       token,
     });
