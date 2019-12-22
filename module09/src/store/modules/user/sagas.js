@@ -13,6 +13,7 @@ export function* updateProfile({ payload }) {
     const profile = {
       name,
       email,
+      avatar_id,
       ...(rest.oldPassword ? rest : {}),
     };
 
