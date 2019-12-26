@@ -3,6 +3,11 @@ import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
+    if (req.params.id) {
+      const plan = await Plan.findByPk(req.params.id);
+      return res.json(plan);
+    }
+
     const plans = await Plan.findAll();
 
     return res.json(plans);
