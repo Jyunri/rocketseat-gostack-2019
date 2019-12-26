@@ -8,7 +8,38 @@ import EnrollmentMail from '../jobs/EnrollmentMail';
 
 class EnrollmentController {
   async index(req, res) {
-    const enrollments = await Enrollment.findAll();
+    if (req.params.id) {
+      const enrollment = await Enrollment.findByPk(req.params.id, {
+        include: [
+          {
+            model: Student,
+            as: 'student',
+            attributes: ['name'],
+          },
+          {
+            model: Plan,
+            as: 'plan',
+            attributes: ['title'],
+          },
+        ],
+      });
+      return res.json(enrollment);
+    }
+
+    const enrollments = await Enrollment.findAll({
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title'],
+        },
+      ],
+    });
 
     return res.json(enrollments);
   }
