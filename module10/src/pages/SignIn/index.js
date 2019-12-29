@@ -1,8 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-// import { Container } from './styles';
+import Background from '~/components/Background';
 
 export default function SignIn() {
-  return <Text>signin</Text>;
+  return (
+    <Background>
+      <Text>signin</Text>
+    </Background>
+  );
 }
