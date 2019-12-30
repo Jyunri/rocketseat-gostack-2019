@@ -1,9 +1,29 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const students = await Student.findAll();
+    // if route param is provided
+    if (req.params.id) {
+      const student = await Student.findByPk(req.params.id);
+      return res.json(student);
+    }
+
+    const filter = req.query.q;
+    let students;
+
+    if (filter) {
+      students = await Student.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${filter}%`,
+          },
+        },
+      });
+    } else {
+      students = await Student.findAll();
+    }
 
     return res.json(students);
   }
@@ -61,6 +81,12 @@ class StudentController {
     const result = await student.update(req.body);
 
     return res.json(result);
+  }
+
+  async delete(req, res) {
+    await Student.destroy({ where: { id: req.params.id } });
+
+    return res.json({ message: 'ok' });
   }
 }
 
